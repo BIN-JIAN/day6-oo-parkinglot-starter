@@ -169,4 +169,17 @@ public class ParkingLotTest {
         assertNull(fetchedCar);
         assertEquals("Unrecognized parking ticket.", parkingBoy.getLastErrorMessage());
     }
+
+    @Test
+    void should_given_parking_lot_without_any_position_parking_boy_and_car_when_park_then_return_nothing_with_error_message() {
+        // Given
+        ParkingLot parkingLot = new ParkingLot(0);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        Car car = new Car();
+        // When
+        Ticket ticket = parkingBoy.park(car);
+        // Then
+        assertNull(ticket);
+        assertEquals("No available position.", parkingBoy.getLastErrorMessage());
+    }
 }
