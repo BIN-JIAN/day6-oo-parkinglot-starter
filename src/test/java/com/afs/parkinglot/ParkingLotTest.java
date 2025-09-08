@@ -14,8 +14,6 @@ public class ParkingLotTest {
         assertNotNull(ticket);
     }
 
-
-
     @Test
     void should_given_a_parking_lot_with_parked_car_and_ticket_when_fetch_then_return_the_parked_car() {
         // Given
@@ -57,8 +55,9 @@ public class ParkingLotTest {
         assertNull(fetchedCar);
     }
 
+
     @Test
-    void should_given_a_parking_lot_with_parked_car_and_wrong_ticket_when_fetch_then_return_nothing() {
+    void should_given_a_parking_lot_with_parked_car_and_wrong_ticket_when_fetch_then_return_exception() {
         // Given
         ParkingLot parkingLot = new ParkingLot(10);
         Car parkedCar = new Car();
@@ -71,7 +70,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    void should_given_a_parking_lot_and_a_used_ticket_when_fetch_then_return_nothing() {
+    void should_given_a_parking_lot_and_a_used_ticket_when_fetch_then_return_exception() {
         // Given
         ParkingLot parkingLot = new ParkingLot(10);
         Car parkedCar = new Car();
@@ -85,7 +84,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    void should_given_a_parking_lot_without_any_position_and_a_car_when_park_then_return_nothing() {
+    void should_given_a_parking_lot_without_any_position_and_a_car_when_park_then_return_exception() {
         // Given
         ParkingLot parkingLot = new ParkingLot(0);
         Car car = new Car();
@@ -93,5 +92,19 @@ public class ParkingLotTest {
         assertThrows(NoAvailablePositionException.class, () -> {
             parkingLot.park(car);
         });
+    }
+
+
+    @Test
+    void should_given_a_parking_lot_a_standard_parking_boy_and_a_car_when_park_then_return_a_parking_ticket() {
+        // Given
+        ParkingLot parkingLot = new ParkingLot(10);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        Car car = new Car();
+        // When
+        Ticket ticket = parkingBoy.park(car);
+
+        // Then
+        assertNotNull(ticket);
     }
 }
