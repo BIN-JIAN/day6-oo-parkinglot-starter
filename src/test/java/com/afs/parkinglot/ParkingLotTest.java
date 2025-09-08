@@ -83,4 +83,15 @@ public class ParkingLotTest {
             parkingLot.fetch(ticket);
         });
     }
+
+    @Test
+    void should_given_a_parking_lot_without_any_position_and_a_car_when_park_then_return_nothing() {
+        // Given
+        ParkingLot parkingLot = new ParkingLot(0);
+        Car car = new Car();
+        // When & Then
+        assertThrows(NoAvailablePositionException.class, () -> {
+            parkingLot.park(car);
+        });
+    }
 }
