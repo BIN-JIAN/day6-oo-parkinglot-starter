@@ -18,7 +18,7 @@ public class StandardParkingBoy extends ParkingBoy {
         return null;
     }
 
-    private boolean isFullParkingLot(ParkingLot parkingLot) {
+    protected boolean isFullParkingLot(ParkingLot parkingLot) {
         try {
             Car tempCar = new Car();
             Ticket tempTicket = parkingLot.park(tempCar);
