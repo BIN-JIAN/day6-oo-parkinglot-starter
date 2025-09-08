@@ -81,7 +81,7 @@ public class Story4Test {
 
     @Test
     void should_return_nothing_with_error_message_when_standard_boy_fetch_with_unrecognized_ticket() {
-        // Given - 一个标准停车小弟，管理两个停车场，和一个未识别的停车票
+        // Given -
         ParkingLot firstParkingLot = new ParkingLot(1);
         ParkingLot secondParkingLot = new ParkingLot(1);
         List<ParkingLot> parkingLots = new ArrayList<>();
@@ -89,13 +89,61 @@ public class Story4Test {
         parkingLots.add(secondParkingLot);
 
         StandardParkingBoy parkingBoy = new StandardParkingBoy(parkingLots);
-        Ticket unrecognizedTicket = new Ticket(); // 创建一个未使用过的票，即未识别票
+        Ticket unrecognizedTicket = new Ticket();
 
-        // When - 取车
+        // When
         Car car = parkingBoy.fetch(unrecognizedTicket);
 
-        // Then - 返回空，并显示错误信息
+        // Then
         assertNull(car);
         assertEquals("Unrecognized parking ticket.", parkingBoy.getLastErrorMessage());
+    }
+
+    @Test
+    void should_return_nothing_with_error_message_when_standard_boy_fetch_with_used_ticket() {
+        // Given
+        ParkingLot firstParkingLot = new ParkingLot(1);
+        ParkingLot secondParkingLot = new ParkingLot(1);
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(firstParkingLot);
+        parkingLots.add(secondParkingLot);
+
+        StandardParkingBoy parkingBoy = new StandardParkingBoy(parkingLots);
+        Car car = new Car();
+        Ticket ticket = parkingBoy.park(car);
+
+        parkingBoy.fetch(ticket);
+
+        // When
+        Car fetchedCarAgain = parkingBoy.fetch(ticket);
+
+        // Then
+        assertNull(fetchedCarAgain);
+        assertEquals("Unrecognized parking ticket.", parkingBoy.getLastErrorMessage());
+    }
+
+    @Test
+    void should_return_nothing_with_error_message_when_standard_boy_park_with_two_lots_both_full() {
+        // Given
+        ParkingLot firstParkingLot = new ParkingLot(1);
+        ParkingLot secondParkingLot = new ParkingLot(1);
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(firstParkingLot);
+        parkingLots.add(secondParkingLot);
+
+        Car firstCar = new Car();
+        Car secondCar = new Car();
+        firstParkingLot.park(firstCar);
+        secondParkingLot.park(secondCar);
+
+        StandardParkingBoy parkingBoy = new StandardParkingBoy(parkingLots);
+        Car thirdCar = new Car();
+
+        // When
+        Ticket ticket = parkingBoy.park(thirdCar);
+
+        // Then
+        assertNull(ticket);
+        assertEquals("No available position.", parkingBoy.getLastErrorMessage());
     }
 }
