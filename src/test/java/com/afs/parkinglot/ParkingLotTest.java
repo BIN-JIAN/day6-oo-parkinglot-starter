@@ -154,4 +154,19 @@ public class ParkingLotTest {
         assertNull(fetchedCar);
         assertEquals("Unrecognized parking ticket.", parkingBoy.getLastErrorMessage());
     }
+
+    @Test
+    void should_given_parking_lot_parking_boy_and_used_ticket_when_fetch_then_return_nothing_with_error_message() {
+        // Given
+        ParkingLot parkingLot = new ParkingLot(10);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        Car parkedCar = new Car();
+        Ticket ticket = parkingLot.park(parkedCar);
+        parkingLot.fetch(ticket);
+        // When
+        Car fetchedCar = parkingBoy.fetch(ticket);
+        // Then
+        assertNull(fetchedCar);
+        assertEquals("Unrecognized parking ticket.", parkingBoy.getLastErrorMessage());
+    }
 }
