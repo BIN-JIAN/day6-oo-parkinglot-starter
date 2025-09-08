@@ -23,7 +23,10 @@ public class ParkingLot {
     }
 
     public Car fetch(Ticket ticket) {
-        if(!parkedCars.containsKey(ticket)){
+        if (ticket == null) {
+            return null;
+        }
+        if (!parkedCars.containsKey(ticket)) {
             throw new UnrecognizedTicketException("Unrecognized parking ticket.");
         }
         return parkedCars.remove(ticket);
