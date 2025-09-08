@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.afs.parkinglot.ParkingLotTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-08T12:42:59" hostname="JIANBI-W11" time="0.011">
+  <properties/>
+  <testcase name="should_given_a_parking_lot_and_a_car_when_park_then_return_a_parking_ticket()" classname="com.afs.parkinglot.ParkingLotTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
