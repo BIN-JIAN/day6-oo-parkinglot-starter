@@ -69,4 +69,18 @@ public class ParkingLotTest {
             parkingLot.fetch(wrongTicket);
         });
     }
+
+    @Test
+    void should_given_a_parking_lot_and_a_used_ticket_when_fetch_then_return_nothing() {
+        // Given
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car parkedCar = new Car();
+        Ticket ticket = parkingLot.park(parkedCar);
+        //when
+        parkingLot.fetch(ticket);
+        // Then
+        assertThrows(UnrecognizedTicketException.class, () -> {
+            parkingLot.fetch(ticket);
+        });
+    }
 }
