@@ -51,18 +51,34 @@ public class ParkingBoy {
         return null;
     }
 
-    private boolean isFullParkingLot(ParkingLot parkingLot) {
-        try {
-            // 尝试停一辆临时车来检查停车场是否已满
-            Car tempCar = new Car();
-            Ticket tempTicket = parkingLot.park(tempCar);
-            // 如果成功停车，说明停车场有空位，将临时车取出
-            parkingLot.fetch(tempTicket);
-            return false;
-        } catch (NoAvailablePositionException e) {
-            // 如果抛出异常，说明停车场已满
-            return true;
+    // 修改为 protected
+    protected boolean isFullParkingLot(ParkingLot parkingLot) {
+        return getAvailablePosition(parkingLot) == 0;
+    }
+
+    // 添加 protected 方法
+    protected int getAvailablePosition(ParkingLot parkingLot) {
+        int count = 0;
+        List<Ticket> tickets = new ArrayList<>();
+
+        //
+        while (true) {
+            try {
+                Car tempCar = new Car();
+                Ticket ticket = parkingLot.park(tempCar);
+                tickets.add(ticket);
+                count++;
+            } catch (NoAvailablePositionException e) {
+                break;
+            }
         }
+
+        //
+        for (Ticket ticket : tickets) {
+            parkingLot.fetch(ticket);
+        }
+
+        return count;
     }
 
     public Car fetch(Ticket ticket) {
@@ -77,13 +93,13 @@ public class ParkingBoy {
                     return car;
                 }
             } catch (UnrecognizedTicketException e) {
-                // 如果这个停车场没有该票，尝试下一个
                 continue;
             }
         }
         lastErrorMessage = "Unrecognized parking ticket.";
         return null;
     }
+
     public String getLastErrorMessage() {
         return lastErrorMessage;
     }

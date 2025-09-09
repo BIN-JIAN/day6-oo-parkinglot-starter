@@ -33,35 +33,35 @@ public class SuperParkingBoy extends ParkingBoy {
     }
 
     private double calculateVacancyRate(ParkingLot parkingLot) {
-        // 计算空置率：可用空位数/总容量
+        // 计算空置率
         int capacity = getTotalCapacity(parkingLot);
         int availablePosition = getAvailablePosition(parkingLot); // 使用父类的方法
 
         if (capacity == 0) {
-            return 0; // 避免除以零
+            return 0;
         }
 
         return (double) availablePosition / capacity;
     }
 
     private int getTotalCapacity(ParkingLot parkingLot) {
-        // 通过尝试停车来获取停车场总容量
-        // 保存原始可用空位数
-        int originalAvailable = getAvailablePosition(parkingLot); // 使用父类的方法
+
+        //
+        int originalAvailable = getAvailablePosition(parkingLot);
         try {
-            // 使用反射获取 capacity 字段的值
+            // 使用反射获取
             java.lang.reflect.Field field = ParkingLot.class.getDeclaredField("capacity");
             field.setAccessible(true);
             return (int) field.get(parkingLot);
         } catch (Exception e) {
-            // 如果出错，回退到原来的方法
+
             return calculateTotalCapacity(parkingLot);
         }
     }
 
-    // 原来的方法，作为备用
+    //
     private int calculateTotalCapacity(ParkingLot parkingLot) {
-        // 保存当前已停车辆数量（通过反射获取）
+        //
         int currentParked = 0;
         try {
             java.lang.reflect.Field field = ParkingLot.class.getDeclaredField("parkedCars");
@@ -69,12 +69,10 @@ public class SuperParkingBoy extends ParkingBoy {
             Map<?, ?> parkedCars = (Map<?, ?>) field.get(parkingLot);
             currentParked = parkedCars.size();
         } catch (Exception e) {
-            // 忽略错误
-        }
 
-        // 尝试填满停车场并计算容量
+        }
         int availablePosition = getAvailablePosition(parkingLot);
 
-        return currentParked + availablePosition; // 总容量 = 已停车辆 + 可用空位
+        return currentParked + availablePosition; //
     }
 }
